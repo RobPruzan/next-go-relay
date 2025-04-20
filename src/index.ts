@@ -1,11 +1,7 @@
-import { Hono } from "hono";
-
 const WS_URL = "wss://next-go-production.up.railway.app";
-const SESS   = "global-share";
+const SESS = "global-share";
 
-const app = new Hono();
-
-app.get("/", c => c.html(/*html*/`
+const htmlContent = /*html*/ `
 <!doctype html><html><head><meta charset="utf-8"/>
   <title>Viewer</title>
   <style>html,body{margin:0;height:100%;background:#111}
@@ -39,6 +35,25 @@ app.get("/", c => c.html(/*html*/`
     };
   </script>
 </body></html>
-`));
+`;
 
-export default app;
+const server = Bun.serve({
+  port: process.env.PORT || 5050,
+  fetch(req) {
+    const url = new URL(req.url);
+
+    if (url.pathname === "/") {
+      return new Response(htmlContent, {
+        headers: {
+          "Content-Type": "text/html",
+        },
+      });
+    }
+
+    return new Response("Not Found", { status: 404 });
+  },
+});
+
+console.log(`Server running at http://localhost:${server.port}`);
+
+export default server;
