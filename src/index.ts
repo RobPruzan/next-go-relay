@@ -38,7 +38,7 @@ const htmlContent = /*html*/ `
 `;
 
 const server = Bun.serve({
-  port: process.env.PORT || 5050,
+  port: 5050,
   fetch(req) {
     const url = new URL(req.url);
 
