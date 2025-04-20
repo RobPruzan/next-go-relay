@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 
 const WS_URL = "wss://next-go-production.up.railway.app";
-const PORT = 8080;
+const PORT = 5050;
 
 const app = new Hono();
 
